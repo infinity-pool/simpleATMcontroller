@@ -7,11 +7,11 @@
 class ATMController {
 public:
     ATMController();
-    void InsertCardSelectAccount(int card_id, std::string PIN);
-    void SeeBalance();
-    void Deposit(int dollars);
-    void Withdraw(int dollars);
-    void TakeoutCard();
+    bool InsertCardSelectAccount(int card_id, std::string PIN, int account_id);
+    int SeeBalance();
+    bool Deposit(int dollars);
+    bool Withdraw(int dollars);
+    bool TakeoutCard();
 
 private:
     Account account;

@@ -6,55 +6,60 @@ ATMController::ATMController() {
     this->account = Account();
 }
 
-void ATMController::InsertCardSelectAccount(int card_id, std::string PIN) {
+bool ATMController::InsertCardSelectAccount(int card_id, std::string PIN, int account_id) {
     if (card_id <= 0) {
-        std::cout << "[WRONG CARD ID]" << std::endl;
-        return;
+        std::cout << "[FAIL : WRONG CARD ID]" << std::endl;
+        return false;
+    }
+    if (!BankAPI::IsCorrectPIN(card_id, PIN)) {
+        std::cout << "[FAIL : WRONG PIN]" << std::endl;
+        return false;
     }
     std::vector<Account> accounts = BankAPI::getAccounts(card_id, PIN);
-    if (accounts.size() != 0) {
-        std::cout << "[ACCOUNTS]" << std::endl;
-        for (auto account : accounts) {
-            std::cout << account.getAccountID() << std::endl;
+    for (auto account : accounts) {
+        if (account.GetAccountID() == account_id) {
+            this->account = account;
+            return true;
         }
-        std::cout << "[SELECT AN ACCOUNT] : ";
-        int account_id;
-        std::cin >> account_id;
-        for (auto account : accounts) {
-            if (account.getAccountID() == account_id) {
-                this->account = account;
-                std::cout << "[SUCCESS : (CARD ID : " << card_id << ", ACCOUNT_ID : " << this->account.getAccountID() << "]" << std::endl;
-                return;
-            }
-        }
-        std::cout << "[WRONG ACCOUNT SELECTION]" << std::endl;
-    } else {
-        std::cout << "[WRONG PIN]" << std::endl;
     }
+    std::cout << "[FAIL : WRONG ACCOUNT ID]" << std::endl;
+    return false;
+    
 }
 
-void ATMController::SeeBalance() {
+int ATMController::SeeBalance() {
     if (!IsAccountSelected()) {
-        std::cout << "[ERROR : INSERT THE CARD AND SELECT ACCOUNT FIRST]" << std::endl;
+        std::cout << "[FAIL : INSERT THE CARD AND SELECT ACCOUNT FIRST]" << std::endl;
+        return -1;
     }
+    return this->account.GetBalance();
 }
 
-void ATMController::Deposit(int dollars) {
+bool ATMController::Deposit(int dollars) {
     if (!IsAccountSelected()) {
-        std::cout << "[ERROR : INSERT THE CARD AND SELECT ACCOUNT FIRST]" << std::endl;
+        std::cout << "[FAIL : INSERT THE CARD AND SELECT ACCOUNT FIRST]" << std::endl;
+        return false;
     }
+    return this->account.Deposit(dollars);
 }
 
-void ATMController::Withdraw(int dollars) {
+bool ATMController::Withdraw(int dollars) {
     if (!IsAccountSelected()) {
-        std::cout << "[ERROR : INSERT THE CARD AND SELECT ACCOUNT FIRST]" << std::endl;
+        std::cout << "[FAIL : INSERT THE CARD AND SELECT ACCOUNT FIRST]" << std::endl;
+        return false;
     }
+    return this->account.Withdraw(dollars);
 }
 
-void ATMController::TakeoutCard() {
+bool ATMController::TakeoutCard() {
+    if (!IsAccountSelected()) {
+        std::cout << "[FAIL : INSERT THE CARD AND SELECT ACCOUNT FIRST]" << std::endl;
+        return false;
+    }
     this->account = Account();
+    return true;
 }
 
 bool ATMController::IsAccountSelected() {
-    return (this->account.getCardID() != -1);
+    return (this->account.GetCardID() != -1);
 }
