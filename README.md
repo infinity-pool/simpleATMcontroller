@@ -15,7 +15,7 @@ At least following flow should be implemented.<br>
 ## How to clone this project
 
 
-## How to build, run, and clean build file
+## How to build, run, test and clean build file
 **Every commands should be executed on root directory!!**
 ### Build
 ```bash
@@ -26,6 +26,12 @@ $ make
 After build,
 ```bash
 $ make run
+```
+
+### Test
+After build,
+```bash
+$ make test
 ```
 
 ### Clean Build Files
