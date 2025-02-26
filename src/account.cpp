@@ -11,3 +11,9 @@ Account::Account(int card_id, int account_id, int balance) {
     this->account_id = account_id;
     this->balance = balance;
 }
+
+int Account::getCardID() { return this->card_id; }
+
+int Account::getAccountID() { return this->account_id; }
+
+int Account::getBalance() { return this->balance; }
