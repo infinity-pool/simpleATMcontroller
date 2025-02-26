@@ -1,8 +1,11 @@
 # simpleATMcontroller
 
 ## Requirements
-At least following flow should be implemented.<br>
-**Insert Card => PIN number => Select Account => See Balance/Deposit/Withdraw**
+At least following flow should be implemented.
+
+> **Insert Card => PIN number => Select Account => See Balance/Deposit/Withdraw**
+
+If you want to see the flow above, do **'Build'** and **'Run'**!!
 
 ## Assumptions
 1. There are only 1 dollar bills(no cents). Thus account balance can be represented in integer.
